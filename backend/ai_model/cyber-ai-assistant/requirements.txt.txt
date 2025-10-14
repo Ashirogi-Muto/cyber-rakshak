@@ -1,0 +1,21 @@
+# For API and data structures
+fastapi
+uvicorn[standard]
+pydantic
+
+# For AI/ML and RAG
+langchain
+langchain-community
+langchain-core
+torch
+transformers
+sentence-transformers
+
+# LangChain integration for your local LLM
+ollama
+
+# For Vector Store
+chromadb
+
+# For Graph Analysis
+networkx

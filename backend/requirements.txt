@@ -1,0 +1,26 @@
+# backend/requirements.txt (updated for local deployment)
+
+fastapi
+uvicorn[standard]
+psycopg2-binary
+python-dotenv
+
+# For parsing Nmap XML output
+python-libnmap
+
+# For parsing Nuclei JSON output
+jsonpath-ng
+
+# For parsing Nikto XML output
+xmltodict
+
+# For threat intelligence and data processing
+requests
+pandas
+
+# For authentication
+python-jose[cryptography]
+passlib[bcrypt]
+
+# For rate limiting
+slowapi

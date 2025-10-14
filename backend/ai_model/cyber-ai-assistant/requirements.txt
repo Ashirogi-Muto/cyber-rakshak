@@ -1,0 +1,30 @@
+# For API and data structures
+fastapi
+uvicorn[standard]
+pydantic
+
+# For AI/ML and RAG
+langchain
+langchain-community
+langchain-core
+langchain-chroma
+torch
+transformers
+sentence-transformers
+tf-keras
+
+# LangChain integration for your local LLM
+ollama
+langchain-ollama
+
+# For Vector Store
+chromadb
+
+# For Graph Analysis
+networkx
+
+# Additional dependencies for integration with existing system
+sqlalchemy
+psycopg2-binary
+python-dotenv
+requests
