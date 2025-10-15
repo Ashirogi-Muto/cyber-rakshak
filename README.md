@@ -4,6 +4,10 @@
 
 This project implements a web platform that orchestrates multiple vulnerability scanners, normalizes and enriches findings, and generates attack-paths. The AI components have been temporarily removed for simplified local deployment.
 
+## Demo Deployment
+
+You can access the live demo of the application at: https://cyber-rakshak-git-main-idkanythinghelps-projects.vercel.app
+
 ## Features Implemented
 
 ### Phase 1: Enumeration GUI & Tool Integration
