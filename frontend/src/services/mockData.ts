@@ -354,13 +354,16 @@ export const mockData = {
     "What is the most critical vulnerability?",
     "How can I fix log4shell?",
     "What is the attack path?",
-    "Explain CVSS scoring"
+    "Explain CVSS scoring",
+    "What is OWASP Top 10?",
+    "How to prevent ransomware?",
+    "What is a zero-day vulnerability?"
   ],
 
   // Settings data
   settings: {
     general: {
-      companyName: "CyberShield Corp",
+      companyName: "Cyber Rakshak",
       timezone: "UTC-05:00",
       language: "en",
       theme: "dark"

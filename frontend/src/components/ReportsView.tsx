@@ -23,16 +23,73 @@ export function ReportsView({ onViewReport }: ReportsViewProps) {
   ];
 
   const handleDownload = (report: any) => {
-    toast.success(`Downloading report for ${report.target}`, {
-      description: `Report ID: ${report.id}`
+    toast.info(`Preparing download for report ${report.id}`, {
+      description: "Generating report file..."
     });
     
-    // Simulate download
+    // Simulate report generation delay
     setTimeout(() => {
-      toast.success("Download complete", {
-        description: `Report for ${report.target} has been saved`
-      });
-    }, 2000);
+      try {
+        // Create mock report data
+        const mockReportData = {
+          report_id: report.id,
+          target: report.target,
+          scan_timestamp: report.scan_timestamp,
+          severity_counts: report.severity_counts,
+          vulnerabilities: [
+            {
+              id: "vuln-1",
+              cve: "CVE-2021-44228",
+              title: "Apache Log4Shell Remote Code Execution",
+              cvss: 10.0,
+              severity: "critical",
+              host: report.target,
+              tool: "Nuclei",
+              date: new Date().toISOString(),
+              status: "Open",
+              description: "Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints.",
+              reference: "https://nvd.nist.gov/vuln/detail/CVE-2021-44228"
+            },
+            {
+              id: "vuln-2",
+              cve: "CVE-2020-1472",
+              title: "Netlogon Elevation of Privilege Vulnerability",
+              cvss: 10.0,
+              severity: "critical",
+              host: report.target,
+              tool: "Nmap",
+              date: new Date().toISOString(),
+              status: "Open",
+              description: "A remote code execution vulnerability exists when an attacker has established a vulnerable Netlogon secure channel connection to a domain controller, using the Netlogon Remote Protocol (MS-NRPC).",
+              reference: "https://nvd.nist.gov/vuln/detail/CVE-2020-1472"
+            }
+          ]
+        };
+        
+        // Convert to JSON string
+        const reportJson = JSON.stringify(mockReportData, null, 2);
+        
+        // Create blob and download
+        const blob = new Blob([reportJson], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `security-report-${report.id}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        toast.success("Download complete", {
+          description: `Report for ${report.target} has been downloaded`
+        });
+      } catch (error) {
+        console.error("Download failed:", error);
+        toast.error("Download failed", {
+          description: "Failed to generate report file. Please try again."
+        });
+      }
+    }, 1500);
   };
 
   const handleView = (report: any) => {
@@ -178,14 +235,23 @@ export function ReportsView({ onViewReport }: ReportsViewProps) {
                     variant="outline" 
                     size="sm"
                     onClick={() => handleView(report)}
+                    className="relative z-10 cursor-pointer"
+                    style={{ 
+                      position: 'relative',
+                      zIndex: 10
+                    }}
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     View
                   </Button>
                   <Button 
                     size="sm" 
-                    className="bg-primary hover:bg-primary/90"
+                    className="bg-primary hover:bg-primary/90 relative z-10 cursor-pointer"
                     onClick={() => handleDownload(report)}
+                    style={{ 
+                      position: 'relative',
+                      zIndex: 10
+                    }}
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download

@@ -58,16 +58,63 @@ export function ReportDetailView({ reportId, onBack }: ReportDetailViewProps) {
 
   const handleDownload = () => {
     if (report) {
-      toast.success(`Downloading report for ${report.target}`, {
-        description: `Report ID: ${report.report_id}`
+      toast.info(`Preparing download for report ${report.report_id}`, {
+        description: "Generating report file..."
       });
       
-      // Simulate download
+      // Simulate report generation delay
       setTimeout(() => {
-        toast.success("Download complete", {
-          description: `Report for ${report.target} has been saved`
-        });
-      }, 2000);
+        try {
+          // Create detailed mock report data
+          const mockReportData = {
+            report_id: report.report_id,
+            target: report.target,
+            scan_timestamp: new Date().toISOString(),
+            vulnerabilities: report.vulnerabilities.map((vuln: any) => ({
+              id: vuln.id,
+              cve: vuln.cve,
+              title: vuln.title,
+              cvss: vuln.cvss,
+              severity: vuln.severity,
+              host: vuln.host,
+              tool: vuln.tool,
+              date: vuln.date,
+              status: vuln.status,
+              description: vuln.description,
+              reference: vuln.reference
+            })),
+            summary: {
+              critical: report.vulnerabilities.filter((v: any) => v.severity === 'critical').length,
+              high: report.vulnerabilities.filter((v: any) => v.severity === 'high').length,
+              medium: report.vulnerabilities.filter((v: any) => v.severity === 'medium').length,
+              low: report.vulnerabilities.filter((v: any) => v.severity === 'low').length
+            }
+          };
+          
+          // Convert to JSON string
+          const reportJson = JSON.stringify(mockReportData, null, 2);
+          
+          // Create blob and download
+          const blob = new Blob([reportJson], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `security-report-${report.report_id}.json`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          
+          toast.success("Download complete", {
+            description: `Report for ${report.target} has been downloaded`
+          });
+        } catch (error) {
+          console.error("Download failed:", error);
+          toast.error("Download failed", {
+            description: "Failed to generate report file. Please try again."
+          });
+        }
+      }, 1500);
     }
   };
 

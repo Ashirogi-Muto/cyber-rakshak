@@ -32,6 +32,77 @@ export function ChatAssistant() {
   const getHardcodedResponse = (query: string): any | null => {
     const normalizedQuery = query.toLowerCase().trim();
     
+    // Greetings - more comprehensive handling
+    if (normalizedQuery === "hi" || normalizedQuery === "hello" || normalizedQuery === "hey" || 
+        normalizedQuery.includes("hello") || normalizedQuery.includes("hi") || normalizedQuery.includes("hey") ||
+        normalizedQuery === "good morning" || normalizedQuery.includes("good morning") ||
+        normalizedQuery === "good afternoon" || normalizedQuery.includes("good afternoon") ||
+        normalizedQuery === "good evening" || normalizedQuery.includes("good evening")) {
+      // Determine specific greeting response
+      if (normalizedQuery === "good morning" || normalizedQuery.includes("good morning")) {
+        return {
+          answer: "Good morning! Ready to dive into cybersecurity topics? I can help with vulnerability assessments, threat intelligence, or security recommendations.",
+          confidence: 0.95
+        };
+      }
+      
+      if (normalizedQuery === "good afternoon" || normalizedQuery.includes("good afternoon")) {
+        return {
+          answer: "Good afternoon! How can I assist with your cybersecurity needs today? I'm here to help with vulnerability analysis, CVE research, and security guidance.",
+          confidence: 0.95
+        };
+      }
+      
+      if (normalizedQuery === "good evening" || normalizedQuery.includes("good evening")) {
+        return {
+          answer: "Good evening! I'm here to help with any cybersecurity questions you might have. Whether it's about vulnerabilities, threats, or security best practices, just ask!",
+          confidence: 0.95
+        };
+      }
+      
+      // Default greeting response
+      return {
+        answer: "Hello! I'm your AI cybersecurity assistant. How can I help you with vulnerability analysis, CVE explanations, or security best practices today?",
+        confidence: 0.95
+      };
+    }
+    
+    // Common questions
+    if (normalizedQuery.includes("what can you do") || normalizedQuery.includes("what are your capabilities") || 
+        normalizedQuery.includes("help") || normalizedQuery === "help") {
+      return {
+        answer: "I'm your AI cybersecurity assistant with several key capabilities:\n\n" +
+                "1. **Vulnerability Analysis**: I can explain CVEs, their severity, and potential impact\n" +
+                "2. **Remediation Guidance**: I provide step-by-step instructions to fix security issues\n" +
+                "3. **Threat Intelligence**: I can discuss current threats and attack vectors\n" +
+                "4. **Security Best Practices**: I offer guidance on secure configurations and practices\n" +
+                "5. **Attack Path Analysis**: I can explain how vulnerabilities might be chained together\n\n" +
+                "Try asking me about specific CVEs like \"What is CVE-2021-44228?\" or general questions like \"How to secure a web server?\"",
+        confidence: 0.95
+      };
+    }
+    
+    if (normalizedQuery.includes("how are you") || normalizedQuery.includes("how do you do")) {
+      return {
+        answer: "I'm functioning optimally and ready to assist with your cybersecurity questions! I'm constantly updated with the latest threat intelligence and vulnerability data. How can I help you today?",
+        confidence: 0.95
+      };
+    }
+    
+    if (normalizedQuery.includes("thank") || normalizedQuery.includes("thanks")) {
+      return {
+        answer: "You're welcome! I'm glad I could assist. Feel free to ask anytime if you have more cybersecurity questions. Stay secure!",
+        confidence: 0.95
+      };
+    }
+    
+    if (normalizedQuery.includes("who are you") || normalizedQuery.includes("what are you")) {
+      return {
+        answer: "I'm your AI-powered cybersecurity assistant, part of the Cyber Rakshak platform. I'm designed to help security professionals and developers understand vulnerabilities, assess risks, and implement effective security measures. I have access to extensive vulnerability databases, threat intelligence, and security best practices.",
+        confidence: 0.95
+      };
+    }
+    
     if (normalizedQuery.includes("most critical vulnerability") || normalizedQuery.includes("critical vulnerability")) {
       return {
         answer: "Based on the scan results, the most critical vulnerability identified is Apache Log4Shell (CVE-2021-44228). This is a remote code execution vulnerability in Apache Log4j with a CVSS score of 10.0 (Critical). It allows attackers to execute arbitrary code on affected systems simply by logging a specially crafted string.",
@@ -41,6 +112,87 @@ export function ChatAssistant() {
             source: "NVD",
             text_snippet: "CVE-2021-44228: Apache Log4j RCE vulnerability",
             ref: "nvd:cve-2021-44228"
+          }
+        ],
+        confidence: 0.95
+      };
+    }
+    
+    if (normalizedQuery.includes("owasp top 10") || normalizedQuery.includes("owasp")) {
+      return {
+        answer: "The OWASP Top 10 is a standard awareness document for developers and web application security. It represents a broad consensus about the most critical security risks to web applications. The current 2021 list includes:\n\n" +
+                "1. **Broken Access Control** - Failures in authentication and session management\n" +
+                "2. **Cryptographic Failures** - Including sensitive data exposure\n" +
+                "3. **Injection** - SQL, NoSQL, OS, and LDAP injection flaws\n" +
+                "4. **Insecure Design** - Design flaws that lead to security issues\n" +
+                "5. **Security Misconfiguration** - Insecure default configurations\n" +
+                "6. **Vulnerable and Outdated Components** - Using components with known vulnerabilities\n" +
+                "7. **Identification and Authentication Failures** - Flaws in authentication mechanisms\n" +
+                "8. **Software and Data Integrity Failures** - Including code signing issues\n" +
+                "9. **Security Logging and Monitoring Failures** - Insufficient logging and monitoring\n" +
+                "10. **Server-Side Request Forgery (SSRF)** - Triggering requests to unintended destinations",
+        citations: [
+          {
+            id: "owasp-1",
+            source: "OWASP",
+            text_snippet: "OWASP Top 10 - 2021",
+            ref: "owasp:top10-2021"
+          }
+        ],
+        confidence: 0.95
+      };
+    }
+    
+    if (normalizedQuery.includes("zero day") || normalizedQuery.includes("zero-day")) {
+      return {
+        answer: "A zero-day vulnerability is a software flaw that is unknown to the vendor and has not yet been patched. The term \"zero-day\" refers to the fact that the vendor has had zero days to address and patch the vulnerability. Attackers can exploit these vulnerabilities immediately, making them particularly dangerous.\n\n" +
+                "Key characteristics of zero-day attacks:\n" +
+                "- **Unknown to defenders**: No patches or signatures exist to detect them\n" +
+                "- **High impact**: Often successful because systems are unprepared\n" +
+                "- **Valuable**: Can sell for hundreds of thousands of dollars on the black market\n" +
+                "- **Short lifespan**: Once discovered, vendors rush to create patches\n\n" +
+                "Protection strategies include:\n" +
+                "- Behavioral analysis and anomaly detection\n" +
+                "- Keeping systems updated with latest security patches\n" +
+                "- Network segmentation to limit lateral movement\n" +
+                "- Regular security assessments and penetration testing",
+        citations: [
+          {
+            id: "zero-1",
+            source: "NIST",
+            text_snippet: "Zero-day vulnerability definition and mitigation strategies",
+            ref: "nist:zero-day-mitigation"
+          }
+        ],
+        confidence: 0.9
+      };
+    }
+    
+    if (normalizedQuery.includes("ransomware") || normalizedQuery.includes("ransom ware")) {
+      return {
+        answer: "Ransomware is a type of malicious software that encrypts a victim's files and demands payment (ransom) for the decryption key. It's one of the most significant cybersecurity threats today.\n\n" +
+                "Common ransomware attack vectors:\n" +
+                "- **Phishing emails** with malicious attachments\n" +
+                "- **Remote Desktop Protocol (RDP)** exploitation\n" +
+                "- **Software vulnerabilities** in web browsers or plugins\n" +
+                "- **Malvertising** (malicious advertising) on legitimate websites\n\n" +
+                "Protection strategies:\n" +
+                "- Regular backups stored offline or in cloud services\n" +
+                "- Employee security awareness training\n" +
+                "- Network segmentation to limit lateral movement\n" +
+                "- Application whitelisting and endpoint protection\n" +
+                "- Regular software updates and patch management\n\n" +
+                "In case of infection:\n" +
+                "- Isolate affected systems immediately\n" +
+                "- Report to authorities (FBI IC3, local cybercrime units)\n" +
+                "- Do not pay the ransom (no guarantee of data recovery)\n" +
+                "- Engage cybersecurity incident response professionals",
+        citations: [
+          {
+            id: "ransom-1",
+            source: "CISA",
+            text_snippet: "Ransomware guide and protection recommendations",
+            ref: "cisa:ransomware-protection"
           }
         ],
         confidence: 0.95
@@ -121,7 +273,7 @@ export function ChatAssistant() {
           content: hardcodedResponse.answer,
           timestamp: new Date().toLocaleTimeString(),
           confidence: hardcodedResponse.confidence,
-          citations: hardcodedResponse.citations.map((c: any) => ({ id: c.id, text: c.text_snippet }))
+          citations: hardcodedResponse.citations ? hardcodedResponse.citations.map((c: any) => ({ id: c.id, text: c.text_snippet })) : []
         };
 
         setMessages(prev => [...prev, assistantMessage]);
@@ -258,7 +410,7 @@ export function ChatAssistant() {
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">Quick questions:</p>
             <div className="flex flex-wrap gap-2">
-              {sampleQuestions.map((question, idx) => (
+              {sampleQuestions.slice(0, 5).map((question, idx) => (
                 <Button
                   key={idx}
                   variant="outline"

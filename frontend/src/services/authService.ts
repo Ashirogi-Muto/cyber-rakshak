@@ -23,35 +23,45 @@ class AuthService {
   private tokenKey = 'authToken';
   private userKey = 'currentUser';
 
+  constructor() {
+    // Clear authentication data on every page load to prevent cached login
+    this.clearAuthData();
+  }
+
+  private clearAuthData(): void {
+    // Clear sessionStorage on page load to prevent cached login
+    sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem(this.userKey);
+  }
+
   public async login(credentials: LoginRequest): Promise<boolean> {
     try {
-      // Extract username from email (everything before @)
-      const username = credentials.email.split('@')[0];
-      
-      // Try to authenticate with backend
-      const response = await fetch(`${api.auth.login}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          password: credentials.password
-        }),
-      });
+      // Hardcoded credentials for demo purposes
+      const validCredentials = [
+        { email: "admin@cyberrakshak.ai", password: "demo123" },
+        { email: "user@example.com", password: "password123" },
+        { email: "test@test.com", password: "test123" }
+      ];
 
-      if (response.ok) {
-        const data: LoginResponse = await response.json();
+      // Check if provided credentials match any hardcoded credentials
+      const isValid = validCredentials.some(cred => 
+        cred.email === credentials.email && cred.password === credentials.password
+      );
+
+      if (isValid) {
+        // Extract username from email (everything before @)
+        const username = credentials.email.split('@')[0];
         
-        // Store token and user data
+        // Create mock token and user data
+        const mockToken = `mock-token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         const user: User = {
           id: '1',
           email: credentials.email,
           username: username,
-          role: data.role
+          role: 'admin' // Default role for demo
         };
         
-        this.setToken(data.access_token);
+        this.setToken(mockToken);
         this.setCurrentUser(user);
         return true;
       } else {

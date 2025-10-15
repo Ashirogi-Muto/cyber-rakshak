@@ -260,10 +260,10 @@ export function AttackPathView() {
                 </div>
 
                 <div className="pt-4 space-y-2">
-                  <Button className="w-full bg-primary hover:bg-primary/90">
+                  <Button className="w-full bg-primary hover:bg-primary/90 relative z-10 cursor-pointer" style={{ position: 'relative', zIndex: 10 }}>
                     View Remediation
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full relative z-10 cursor-pointer" style={{ position: 'relative', zIndex: 10 }}>
                     Generate Report
                   </Button>
                 </div>
@@ -316,7 +316,7 @@ export function AttackPathView() {
                       <span>{path.impact}</span>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="relative z-10 cursor-pointer" style={{ position: 'relative', zIndex: 10 }}>
                     Analyze Path
                   </Button>
                 </div>
